@@ -22,7 +22,6 @@
 	<properties>
 		<java.version>1.8</java.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		
 		<org.apache.httpcomponents>4.5.10</org.apache.httpcomponents>
 	</properties>
 

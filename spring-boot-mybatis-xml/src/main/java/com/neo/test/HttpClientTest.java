@@ -3,16 +3,26 @@ package com.neo.test;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.neo.util.HttpClientResult;
 import com.neo.util.HttpClientUtils;
 
 public class HttpClientTest {
 
-	public static String url = "http://127.0.0.1:9902/viagogo/mybatis/";
+	private static String url = "http://127.0.0.1:9902/viagogo/mybatis/";
 
-	public static String get_value = "getUsers";
+	private static String getAll_value = "getUsers";
+	
+	private static final String getByUserId = "getUser";
+	
+	private static final String addUsers = "add";
+	
+	private static final String deleteUsers = "delete/";
 
 	public static void main(String[] args) throws Exception {
 		getAllTest();
+		getTest();
+//		saveTest();
+		deleteTest();
 	}
 
 	/**
@@ -21,7 +31,11 @@ public class HttpClientTest {
 	 * 设定文件 @return void 返回类型 @throws
 	 */
 	public static void getAllTest() throws Exception {
-		System.out.println(HttpClientUtils.doGet(url + get_value));
+		HttpClientResult httpClientResult =   HttpClientUtils.doGet(url + getAll_value);
+		if (200 == httpClientResult.getStatusCode()) {
+			Object userList = httpClientResult.getContent();
+			System.out.println(userList.toString());
+		}
 	}
 
 	/**
@@ -32,10 +46,49 @@ public class HttpClientTest {
 	public static void getTest() throws Exception {
 		Map<String, String> paramMap = new HashMap<String, String>();
 		paramMap.put("id", "28");
-		System.out.println(HttpClientUtils.doGet(url, paramMap));
+		
+		HttpClientResult httpClientResult =HttpClientUtils.doGet(url+getByUserId, paramMap);
+		if (200 == httpClientResult.getStatusCode()) {
+			Object userList = httpClientResult.getContent();
+			System.out.println(userList.toString());
+		}
 	}
 
-	public static void postTest() throws Exception {
-
+	/**
+	 * 
+	* @Title: saveTest
+	* @Description: 测试保存功能
+	* @param @throws Exception    设定文件
+	* @return void    返回类型
+	* @throws
+	 */
+	public static void saveTest() throws Exception {
+		HashMap<String, String> userMap = new HashMap<String, String>();
+		userMap.put("userName", "jack");
+		userMap.put("passWord", "123456");
+		HttpClientResult httpClientResult = HttpClientUtils.doPost(url+addUsers, userMap);
+		if (200 == httpClientResult.getStatusCode()) {
+			System.out.println("return saveTest code:: "+httpClientResult.getStatusCode());
+			System.out.println(httpClientResult.getContent().toString());
+		}
+	}
+	
+	/**
+	 * 
+	* @Title: deleteTest
+	* @Description: 测试delete方法
+	* @param @throws Exception    设定文件
+	* @return void    返回类型
+	* @throws
+	 */
+	public static void deleteTest() throws Exception {
+		Map<String, String> deleteMap = new HashMap<String, String>();
+		deleteMap.put("id", "28");
+		HttpClientResult httpClientResult = HttpClientUtils.doPost(url+deleteUsers+deleteMap.get("id"),deleteMap);
+		
+		if (200 == httpClientResult.getStatusCode()) {
+			System.out.println(httpClientResult.getContent());
+			System.out.println(httpClientResult.getContent().toString());
+		}
 	}
 }
