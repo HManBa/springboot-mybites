@@ -43,5 +43,8 @@ public class UserController {
     	userMapper.delete(id);
     }
     
-    
+    @RequestMapping(value = "/deleteAll")
+	public void deleteAll() {
+    	userMapper.deleteAll();
+	}
 }

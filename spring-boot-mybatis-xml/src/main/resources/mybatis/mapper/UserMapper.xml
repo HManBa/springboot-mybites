@@ -51,5 +51,10 @@
        WHERE 
        		 id =#{id}
     </delete>
+    
+    <delete id="deleteAll" >
+       DELETE FROM
+       		 users 
+    </delete>
 
 </mapper>

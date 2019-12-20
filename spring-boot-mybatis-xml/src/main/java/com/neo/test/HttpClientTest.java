@@ -17,12 +17,15 @@ public class HttpClientTest {
 	private static final String addUsers = "add";
 	
 	private static final String deleteUsers = "delete/";
+	
+	private static final String deleteAll = "deleteAll";
 
 	public static void main(String[] args) throws Exception {
-		getAllTest();
-		getTest();
+//		getAllTest();
+//		getTest();
 //		saveTest();
-		deleteTest();
+//		deleteTest();
+		deleteAllTest();
 	}
 
 	/**
@@ -45,7 +48,7 @@ public class HttpClientTest {
 	 */
 	public static void getTest() throws Exception {
 		Map<String, String> paramMap = new HashMap<String, String>();
-		paramMap.put("id", "28");
+		paramMap.put("id", "4");
 		
 		HttpClientResult httpClientResult =HttpClientUtils.doGet(url+getByUserId, paramMap);
 		if (200 == httpClientResult.getStatusCode()) {
@@ -83,12 +86,23 @@ public class HttpClientTest {
 	 */
 	public static void deleteTest() throws Exception {
 		Map<String, String> deleteMap = new HashMap<String, String>();
-		deleteMap.put("id", "28");
+		deleteMap.put("id", "40");
 		HttpClientResult httpClientResult = HttpClientUtils.doPost(url+deleteUsers+deleteMap.get("id"),deleteMap);
 		
 		if (200 == httpClientResult.getStatusCode()) {
 			System.out.println(httpClientResult.getContent());
 			System.out.println(httpClientResult.getContent().toString());
+		}
+	}
+	
+	public static void deleteAllTest() throws Exception {
+		Map<String, String> deleteMap = new HashMap<String, String>();
+		deleteMap.put("id", "28");
+		
+		HttpClientResult httpClientResult =   HttpClientUtils.doPost(url+deleteAll);
+		if (200 == httpClientResult.getStatusCode()) {
+			System.out.println(httpClientResult.getStatusCode());
+			System.out.println("deleteAll success");
 		}
 	}
 }
