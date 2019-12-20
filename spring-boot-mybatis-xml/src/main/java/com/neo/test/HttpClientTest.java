@@ -95,10 +95,7 @@ public class HttpClientTest {
 		}
 	}
 	
-	public static void deleteAllTest() throws Exception {
-		Map<String, String> deleteMap = new HashMap<String, String>();
-		deleteMap.put("id", "28");
-		
+	public static void deleteAllTest() throws Exception {		
 		HttpClientResult httpClientResult =   HttpClientUtils.doPost(url+deleteAll);
 		if (200 == httpClientResult.getStatusCode()) {
 			System.out.println(httpClientResult.getStatusCode());

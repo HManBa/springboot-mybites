@@ -28,26 +28,26 @@ public class UserMapperTest {
 		Assert.assertEquals(12, userMapper.getAll().size());
 	}
 
-//	@Test
-//	public void testQuery() throws Exception {
-//		List<Users> users = userMapper.getAll();
-//		if(users==null || users.size()==0){
-//			System.out.println("is null");
-//		}else{
-//			System.out.println(users.toString());
-//		}
-//	}
-//	
-//	
-//	@Test
-//	public void testUpdate() throws Exception {
-//		Users user = userMapper.getOne(28L);
-//		System.out.println(user.toString());
-//		user.setNickName("neo");
-//		userMapper.update(user);
-//		Assert.assertTrue(("neo".equals(userMapper.getOne(28L).getNickName())));
-//	}
-//	
+	@Test
+	public void testQuery() throws Exception {
+		List<Users> users = userMapper.getAll();
+		if(users==null || users.size()==0){
+			System.out.println("is null");
+		}else{
+			System.out.println(users.toString());
+		}
+	}
+	
+	
+	@Test
+	public void testUpdate() throws Exception {
+		Users user = userMapper.getOne(28L);
+		System.out.println(user.toString());
+		user.setNickName("neo");
+		userMapper.update(user);
+		Assert.assertTrue(("neo".equals(userMapper.getOne(28L).getNickName())));
+	}
+	
 	@Test
 	public void deleteAll() {
 		userMapper.deleteAll();

@@ -10,9 +10,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class MybatisXmlApplication {
 
 	public static void main(String[] args) {
-//		SpringApplication springApplication = new SpringApplication(MybatisXmlApplication.class);
-//		springApplication.setBannerMode(Banner.Mode.LOG);
-//		springApplication.run(args);
-		SpringApplication.run(MybatisXmlApplication.class, args);
+		SpringApplication springApplication = new SpringApplication(MybatisXmlApplication.class);
+		springApplication.setBannerMode(Banner.Mode.CONSOLE);
+		springApplication.run(args);
+//		SpringApplication.run(MybatisXmlApplication.class, args);
 	}
 }
