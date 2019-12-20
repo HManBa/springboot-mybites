@@ -26,12 +26,14 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 
-/**
- * Description: httpClient工具类
- * 
- * @author JourWon
- * @date Created on 2018年4月19日
- */
+
+/*************************
+* @ClassName: HttpClientUtils
+* @Description: http请求工具类
+* @author: huhao
+* @date 2019年12月20日 上午10:44:47
+*
+**************************/
 public class HttpClientUtils {
 
 	// 编码格式。发送编码格式统一用UTF-8
