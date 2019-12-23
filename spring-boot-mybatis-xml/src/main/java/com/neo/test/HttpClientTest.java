@@ -6,6 +6,13 @@ import java.util.Map;
 import com.neo.util.HttpClientResult;
 import com.neo.util.HttpClientUtils;
 
+/*************************
+* @ClassName: HttpClientTest
+* @Description: TODO(这里用一句话描述这个类的作用)
+* @author: huhao
+* @date 2019年12月23日 上午10:49:39
+*
+**************************/
 public class HttpClientTest {
 
 	private static String url = "http://127.0.0.1:9902/viagogo/mybatis/";
@@ -19,15 +26,31 @@ public class HttpClientTest {
 	private static final String deleteUsers = "delete/";
 	
 	private static final String deleteAll = "deleteAll";
+	
+	private static final String getWXToken = "/getWxToken";
 
 	public static void main(String[] args) throws Exception {
 //		getAllTest();
 //		getTest();
 //		saveTest();
 //		deleteTest();
-		deleteAllTest();
+//		deleteAllTest();
+		getWXTokenTest();
 	}
 
+	/**
+	* @Title: getWXTokenTest
+	* @Description: TODO(这里用一句话描述这个方法的作用)
+	* @param     设定文件
+	* @return void    返回类型
+	* @throws
+	 */
+	public static void getWXTokenTest() throws Exception{
+		HttpClientResult httpClientResult =  HttpClientUtils.doGet(url+getWXToken);
+		System.out.println(httpClientResult.getStatusCode());
+		System.out.println(httpClientResult.getContent());
+	}
+	
 	/**
 	 * 
 	 * @Title: getTest @Description: test getAll @param @throws Exception
