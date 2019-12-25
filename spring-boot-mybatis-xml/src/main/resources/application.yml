@@ -28,4 +28,32 @@ logging:
 
 #url
 url: 
-    WXToken: https://api.weixin.qq.com/cgi-bin/token
+    #获取token
+    WXToken: https://api.weixin.qq.com/cgi-bin/token?
+    
+    #创建标签
+    createTag: https://api.weixin.qq.com/cgi-bin/tags/create?access_token=
+    
+    #获取公众号已创建的标签
+    getTag: https://api.weixin.qq.com/cgi-bin/tags/get?
+    
+    #获取帐号的关注者列表
+    getUserOpenId: https://api.weixin.qq.com/cgi-bin/user/get?
+    
+    #身份证OCR
+    identityCard: https://api.weixin.qq.com/cv/ocr/idcard?
+    
+    #银行卡OCR
+    bankCard: https://api.weixin.qq.com/cv/ocr/ bankcard?
+    
+    #行驶证OCR
+    drivingCard: https://api.weixin.qq.com/cv/ocr/ driving?
+    
+    #驾驶证OCR
+    drivinglicenseCard: https://api.weixin.qq.com/cv/ocr/drivinglicense?
+    
+    
+    
+#weChat 账号
+APPID: wx897cd66519572420
+SECRET: ccd262618e16635dc1a63a2f33e58cd2

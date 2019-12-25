@@ -24,7 +24,7 @@ public class WXTokenControllerTest {
 	String wx_tokenUrl;
 	@Test
 	public void testWXTokenTest() throws Exception {
-		HttpClientResult httpClientResult =  HttpClientUtils.doGet("http://127.0.0.1:9902/viagogo/mybatis/getWxToken");
+		HttpClientResult httpClientResult =  HttpClientUtils.doGet("http://127.0.0.1:9902/viagogo/mybatis/getWxToken",false);
 		System.out.println(httpClientResult.getStatusCode());
 		System.out.println(httpClientResult.getContent());
 	}

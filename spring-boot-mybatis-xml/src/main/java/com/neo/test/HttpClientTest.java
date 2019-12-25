@@ -3,8 +3,10 @@ package com.neo.test;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.alibaba.fastjson.JSONObject;
 import com.neo.util.HttpClientResult;
 import com.neo.util.HttpClientUtils;
+import com.neo.util.WXUtil;
 
 /*************************
 * @ClassName: HttpClientTest
@@ -27,7 +29,11 @@ public class HttpClientTest {
 	
 	private static final String deleteAll = "deleteAll";
 	
-	private static final String getWXToken = "/getWxToken";
+	private static final String getWXToken = "getWxToken";
+	
+	private static final String addWXTag= "tag/addTag";
+	
+	private static final String getWXAllTag= "tag/getAllTag";
 
 	public static void main(String[] args) throws Exception {
 //		getAllTest();
@@ -35,7 +41,13 @@ public class HttpClientTest {
 //		saveTest();
 //		deleteTest();
 //		deleteAllTest();
-		getWXTokenTest();
+		HttpClientResult httpClientResult = getWXTokenTest();
+		if (200 == httpClientResult.getStatusCode()) {
+			JSONObject jsonObject = JSONObject.parseObject((String)httpClientResult.getContent());
+			String token = jsonObject.getString("content");
+//			getAllTag(token);		
+			addTagTest(token);
+		}
 	}
 
 	/**
@@ -45,10 +57,11 @@ public class HttpClientTest {
 	* @return void    返回类型
 	* @throws
 	 */
-	public static void getWXTokenTest() throws Exception{
-		HttpClientResult httpClientResult =  HttpClientUtils.doGet(url+getWXToken);
+	public static HttpClientResult getWXTokenTest() throws Exception{
+		HttpClientResult httpClientResult =  HttpClientUtils.doGet(url+getWXToken,false);
 		System.out.println(httpClientResult.getStatusCode());
 		System.out.println(httpClientResult.getContent());
+		return httpClientResult;
 	}
 	
 	/**
@@ -57,7 +70,7 @@ public class HttpClientTest {
 	 * 设定文件 @return void 返回类型 @throws
 	 */
 	public static void getAllTest() throws Exception {
-		HttpClientResult httpClientResult =   HttpClientUtils.doGet(url + getAll_value);
+		HttpClientResult httpClientResult =   HttpClientUtils.doGet(url + getAll_value,false);
 		if (200 == httpClientResult.getStatusCode()) {
 			Object userList = httpClientResult.getContent();
 			System.out.println(userList.toString());
@@ -73,7 +86,7 @@ public class HttpClientTest {
 		Map<String, String> paramMap = new HashMap<String, String>();
 		paramMap.put("id", "4");
 		
-		HttpClientResult httpClientResult =HttpClientUtils.doGet(url+getByUserId, paramMap);
+		HttpClientResult httpClientResult =HttpClientUtils.doGet(url+getByUserId, paramMap,false);
 		if (200 == httpClientResult.getStatusCode()) {
 			Object userList = httpClientResult.getContent();
 			System.out.println(userList.toString());
@@ -92,7 +105,7 @@ public class HttpClientTest {
 		HashMap<String, String> userMap = new HashMap<String, String>();
 		userMap.put("userName", "jack");
 		userMap.put("passWord", "123456");
-		HttpClientResult httpClientResult = HttpClientUtils.doPost(url+addUsers, userMap);
+		HttpClientResult httpClientResult = HttpClientUtils.doPost(url+addUsers, userMap,false);
 		if (200 == httpClientResult.getStatusCode()) {
 			System.out.println("return saveTest code:: "+httpClientResult.getStatusCode());
 			System.out.println(httpClientResult.getContent().toString());
@@ -110,7 +123,7 @@ public class HttpClientTest {
 	public static void deleteTest() throws Exception {
 		Map<String, String> deleteMap = new HashMap<String, String>();
 		deleteMap.put("id", "40");
-		HttpClientResult httpClientResult = HttpClientUtils.doPost(url+deleteUsers+deleteMap.get("id"),deleteMap);
+		HttpClientResult httpClientResult = HttpClientUtils.doPost(url+deleteUsers+deleteMap.get("id"),deleteMap,false);
 		
 		if (200 == httpClientResult.getStatusCode()) {
 			System.out.println(httpClientResult.getContent());
@@ -119,10 +132,31 @@ public class HttpClientTest {
 	}
 	
 	public static void deleteAllTest() throws Exception {		
-		HttpClientResult httpClientResult =   HttpClientUtils.doPost(url+deleteAll);
+		HttpClientResult httpClientResult =   HttpClientUtils.doPost(url+deleteAll,false);
 		if (200 == httpClientResult.getStatusCode()) {
 			System.out.println(httpClientResult.getStatusCode());
 			System.out.println("deleteAll success");
 		}
+	}
+	
+	public static void addTagTest(String token) throws Exception {
+		Map<String, String> paraMap = new HashMap<String, String>();
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put("name", "ddd");
+		
+		paraMap.put("tag", jsonObject.toJSONString());
+		paraMap.put("access_token", token);
+		
+		HttpClientResult httpClientResult = HttpClientUtils.doPost(url+addWXTag, paraMap, false);
+		System.out.println("返回编码："+httpClientResult.getStatusCode());
+		System.out.println("返回数据："+httpClientResult.getContent());
+	}
+	
+	public static void getAllTag(String token) throws Exception {
+		Map<String, String> paraMap = new HashMap<String, String>();
+		paraMap.put("access_token", token);
+		HttpClientResult httpClientResult = HttpClientUtils.doGet(url+getWXAllTag, paraMap,false);
+		System.out.println("返回编码："+httpClientResult.getStatusCode());
+		System.out.println("返回数据："+httpClientResult.getContent());
 	}
 }

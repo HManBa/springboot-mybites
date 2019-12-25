@@ -13,7 +13,7 @@ import com.neo.model.entity.ReturnDto;
 public class ReturnDtoUtil {
 
 	public static ReturnDto success(Object content) {
-		return new ReturnDto(ReturnEnum.OK.getCode(), "", content);
+		return new ReturnDto(ReturnEnum.OK.getCode(),content);
 	}
 	
 	public static ReturnDto fail(String error,Object content) {

@@ -2,6 +2,9 @@ package com.neo.util;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.security.KeyManagementException;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -21,8 +24,18 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.client.utils.URIBuilder;
+import org.apache.http.config.Registry;
+import org.apache.http.config.RegistryBuilder;
+import org.apache.http.conn.socket.ConnectionSocketFactory;
+import org.apache.http.conn.socket.PlainConnectionSocketFactory;
+import org.apache.http.conn.ssl.NoopHostnameVerifier;
+import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
+import org.apache.http.conn.ssl.SSLContextBuilder;
+import org.apache.http.conn.ssl.TrustSelfSignedStrategy;
+import org.apache.http.impl.client.BasicCookieStore;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
+import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 
@@ -46,26 +59,29 @@ public class HttpClientUtils {
 	private static final int SOCKET_TIMEOUT = 5000;
 
 	/**
-	 * 发送get请求；不带请求头和请求参数
 	 * 
-	 * @param url 请求地址
-	 * @return
-	 * @throws Exception
+	* @Title: doGet
+	* @Description: 发送get请求；不带请求头和请求参数
+	* @param url
+	* @param isHttps  true=https  false=http
+	* @return HttpClientResult    返回类型
+	* @throws
 	 */
-	public static HttpClientResult doGet(String url) throws Exception {
-		return doGet(url, null, null);
+	public static HttpClientResult doGet(String url,Boolean isHttps) throws Exception {
+		return doGet(url, null, null,isHttps);
 	}
 	
 	/**
-	 * 发送get请求；带请求参数
+	 * (http)发送get请求；带请求参数
 	 * 
 	 * @param url 请求地址
 	 * @param params 请求参数集合
+	 * @param isHttps true=https  false=http
 	 * @return
 	 * @throws Exception
 	 */
-	public static HttpClientResult doGet(String url, Map<String, String> params) throws Exception {
-		return doGet(url, null, params);
+	public static HttpClientResult doGet(String url, Map<String, String> params,Boolean isHttps) throws Exception {
+		return doGet(url, null, params,isHttps);
 	}
 
 	/**
@@ -74,13 +90,20 @@ public class HttpClientUtils {
 	 * @param url 请求地址
 	 * @param headers 请求头集合
 	 * @param params 请求参数集合
+	 * @param isHttps true=https  false=http
 	 * @return
 	 * @throws Exception
 	 */
-	public static HttpClientResult doGet(String url, Map<String, String> headers, Map<String, String> params) throws Exception {
+	public static HttpClientResult doGet(String url, Map<String, String> headers, Map<String, String> params,Boolean isHttps) throws Exception {
+		
 		// 创建httpClient对象
 		CloseableHttpClient httpClient = HttpClients.createDefault();
-
+		if (isHttps) {
+			httpClient = getHttpClient();
+		}else {
+			httpClient = HttpClients.createDefault();			
+		}
+		
 		// 创建访问的地址
 		URIBuilder uriBuilder = new URIBuilder(url);
 		if (params != null) {
@@ -120,11 +143,12 @@ public class HttpClientUtils {
 	 * 发送post请求；不带请求头和请求参数
 	 * 
 	 * @param url 请求地址
+	 * @param isHttps true=https  false=http
 	 * @return
 	 * @throws Exception
 	 */
-	public static HttpClientResult doPost(String url) throws Exception {
-		return doPost(url, null, null);
+	public static HttpClientResult doPost(String url,Boolean isHttps) throws Exception {
+		return doPost(url, null, null,isHttps);
 	}
 	
 	/**
@@ -132,11 +156,12 @@ public class HttpClientUtils {
 	 * 
 	 * @param url 请求地址
 	 * @param params 参数集合
+	 * @param isHttps true=https  false=http
 	 * @return
 	 * @throws Exception
 	 */
-	public static HttpClientResult doPost(String url, Map<String, String> params) throws Exception {
-		return doPost(url, null, params);
+	public static HttpClientResult doPost(String url, Map<String, String> params,Boolean isHttps) throws Exception {
+		return doPost(url, null, params,isHttps);
 	}
 
 	/**
@@ -144,13 +169,17 @@ public class HttpClientUtils {
 	 * 
 	 * @param url 请求地址
 	 * @param headers 请求头集合
-	 * @param params 请求参数集合
+	 * @param isHttps 请求参数集合
+	 * @param isHttps true=https  false=http
 	 * @return
 	 * @throws Exception
 	 */
-	public static HttpClientResult doPost(String url, Map<String, String> headers, Map<String, String> params) throws Exception {
+	public static HttpClientResult doPost(String url, Map<String, String> headers,Map<String, String> params, boolean isHttps) throws Exception {
 		// 创建httpClient对象
 		CloseableHttpClient httpClient = HttpClients.createDefault();
+		if (isHttps) {
+			httpClient = getHttpClient();
+		}
 
 		// 创建http对象
 		HttpPost httpPost = new HttpPost(url);
@@ -191,6 +220,7 @@ public class HttpClientUtils {
 	 * 
 	 * @param url 请求地址
 	 * @param params 参数集合
+	 * @param isHttps true=https  false=http
 	 * @return
 	 * @throws Exception
 	 */
@@ -203,6 +233,7 @@ public class HttpClientUtils {
 	 * 
 	 * @param url 请求地址
 	 * @param params 参数集合
+	 * @param isHttps true=https  false=http
 	 * @return
 	 * @throws Exception
 	 */
@@ -250,22 +281,24 @@ public class HttpClientUtils {
 	 * 
 	 * @param url 请求地址
 	 * @param params 参数集合
+	 * @param isHttps true=https  false=http
 	 * @return
 	 * @throws Exception
 	 */
-	public static HttpClientResult doDelete(String url, Map<String, String> params) throws Exception {
+	public static HttpClientResult doDelete(String url, Map<String, String> params,Boolean isHttps) throws Exception {
 		if (params == null) {
 			params = new HashMap<String, String>();
 		}
 
 		params.put("_method", "delete");
-		return doPost(url, params);
+		return doPost(url, params,isHttps);
 	}
 	
 	/**
 	 * Description: 封装请求头
 	 * @param params
 	 * @param httpMethod
+	 * 
 	 */
 	public static void packageHeader(Map<String, String> params, HttpRequestBase httpMethod) {
 		// 封装请求头
@@ -341,5 +374,34 @@ public class HttpClientUtils {
 			httpClient.close();
 		}
 	}
+	
+	public static CloseableHttpClient getHttpClient() {
+        try {
+            SSLContextBuilder builder = new SSLContextBuilder();
+            builder.loadTrustMaterial(null, new TrustSelfSignedStrategy());
+            //不进行主机名验证
+            SSLConnectionSocketFactory sslConnectionSocketFactory = new SSLConnectionSocketFactory(builder.build(),
+                    NoopHostnameVerifier.INSTANCE);
+            Registry<ConnectionSocketFactory> registry = RegistryBuilder.<ConnectionSocketFactory> create()
+                    .register("http", new PlainConnectionSocketFactory())
+                    .register("https", sslConnectionSocketFactory)
+                    .build();
+
+            PoolingHttpClientConnectionManager cm = new PoolingHttpClientConnectionManager(registry);
+            cm.setMaxTotal(100);
+            CloseableHttpClient httpclient = HttpClients.custom()
+                    .setSSLSocketFactory(sslConnectionSocketFactory)
+                    .setDefaultCookieStore(new BasicCookieStore())
+                    .setConnectionManager(cm).build();
+            return httpclient;
+        } catch (KeyManagementException e) {
+            e.printStackTrace();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (KeyStoreException e) {
+            e.printStackTrace();
+        }
+        return HttpClients.createDefault();
+    }
 
 }

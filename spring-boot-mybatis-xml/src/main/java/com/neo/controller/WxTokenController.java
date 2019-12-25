@@ -9,7 +9,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.neo.model.entity.ReturnDto;
 import com.neo.util.HttpClientResult;
 import com.neo.util.ReturnDtoUtil;
-import com.neo.util.WXTokenUtil;
+import com.neo.util.WXUtil;
 
 /*************************
  * @ClassName: WxToken
@@ -22,14 +22,14 @@ import com.neo.util.WXTokenUtil;
 public class WxTokenController {
 	
 	@Autowired
-	private WXTokenUtil wxTokenUtil;
+	private WXUtil wxTokenUtil;
 
 	@RequestMapping("/getWxToken")
 	public ReturnDto getWxToken() {
 		HttpClientResult httpClientResult = wxTokenUtil.getWxToken();
 		JSONObject jsonObject = JSONObject.parseObject((String) httpClientResult.getContent());
 		
-		if (200 == httpClientResult.getStatusCode() &&StringUtils.isEmpty(jsonObject.getString("errcode"))  && 0 ==jsonObject.getIntValue("code")) {
+		if (200 == httpClientResult.getStatusCode() &&StringUtils.isEmpty(jsonObject.getString("errcode"))) {
 			return ReturnDtoUtil.success(jsonObject.get("access_token"));
 		}
 		
