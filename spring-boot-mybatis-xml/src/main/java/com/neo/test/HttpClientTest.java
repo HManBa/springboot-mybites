@@ -142,7 +142,7 @@ public class HttpClientTest {
 	public static void addTagTest(String token) throws Exception {
 		Map<String, String> paraMap = new HashMap<String, String>();
 		JSONObject jsonObject = new JSONObject();
-		jsonObject.put("name", "ddd");
+		jsonObject.put("name", "测试标签");
 		
 		paraMap.put("tag", jsonObject.toJSONString());
 		paraMap.put("access_token", token);

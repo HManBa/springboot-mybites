@@ -100,15 +100,17 @@ public class WXUtil {
 	* @throws
 	 */
 	public HttpClientResult getWxUserTag(String access_token,String tag) throws Exception {
-		JSONObject jsonObject = new JSONObject();
-		jsonObject.put("tag", tag);
-				
-		Map<String, String> paramMap = new HashMap<String, String>();
-		paramMap.put("tag", jsonObject.toString());
+//		Map<String, String> paramMap = new HashMap<String, String>();
+//		JSONObject jsonObject = new JSONObject();
+//		jsonObject.put("tag", tag);
+//		paramMap.put("tag", jsonObject.toString());
+		String tags ="{ \"tag\" : { \"name\" : \"测试\"}}";
+//		paramMap.put("tag", tags);
+//		paramMap.put("name", "huhuaohohod");
 		
-		paramMap.put("access_token", access_token);
-		
-		return HttpClientUtils.doPost(tagUrl+access_token, paramMap, true);
+//		paramMap.put("access_token", access_token);
+		JSONObject jsonObj = JSONObject.parseObject(tags);
+		return HttpClientUtils.doPost(tagUrl+access_token, null , true,jsonObj);
 	}
 	
 	public HttpClientResult getWxAllTag(String access_token) throws Exception {		
