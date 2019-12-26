@@ -144,7 +144,7 @@ public class HttpClientTest {
 		JSONObject jsonObject = new JSONObject();
 		jsonObject.put("name", "测试标签");
 		
-		paraMap.put("tag", jsonObject.toJSONString());
+		paraMap.put("tag", "测试标签");
 		paraMap.put("access_token", token);
 		
 		HttpClientResult httpClientResult = HttpClientUtils.doPost(url+addWXTag, paraMap, false);

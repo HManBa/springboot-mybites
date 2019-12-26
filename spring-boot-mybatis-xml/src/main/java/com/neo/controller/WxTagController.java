@@ -46,11 +46,7 @@ public class WxTagController {
 			if (StringUtils.isNullOrEmpty(access_token) || tagJson == null || tagJson.isEmpty()) {
 				return ReturnDtoUtil.fail(ReturnEnum.FAIL.getMessage(), "access_access_token或tag为空");
 			}
-			
-			String param = "{ \"tag\" : { \"name\" : \"陕西\"}}";
-			String Httpsreturn = httpsUtil(param, access_token);
-			System.out.println(Httpsreturn);
-				
+							
 			HttpClientResult httpClientResult = WXUtil.getWxUserTag(access_token,tagJson);
 			
 			if (200 == httpClientResult.getStatusCode()) {
@@ -84,38 +80,5 @@ public class WxTagController {
 			returnDto = ReturnDtoUtil.fail(ReturnEnum.FAIL.getMessage(), null);
 		}
 		return returnDto;
-	}
-	
-	private static String httpsUtil(String param,String acces_token) throws IOException {
-		URL url = new URL("https://api.weixin.qq.com/cgi-bin/tags/create?access_token="+acces_token);
-		URLConnection connection = url.openConnection();
-		 connection.setRequestProperty("accept", "*/*");
-         connection.setRequestProperty("connection", "Keep-Alive");
-         connection.setRequestProperty("Content-Type", "text/xml");
-        // connection.setRequestProperty("Content-Length", body.getBytes().length+"");
-         connection.setRequestProperty("User-Agent",
-               "Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Trident/5.0)");
-          
-          
-            connection.setDoOutput(true);  
-            OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream(), "utf-8");  
-            out.write(param); // 向页面传递数据。post的关键所在！  
-            out.flush();  
-            out.close();  
-            // 一旦发送成功，用以下方法就可以得到服务器的回应：  
-           
-           String  sCurrentLine = "";  
-           String  sTotalString = "";  
-            InputStream l_urlStream;  
-            l_urlStream = connection.getInputStream();  
-            // 传说中的三层包装阿！  
-            BufferedReader l_reader = new BufferedReader(new InputStreamReader(  
-                    l_urlStream));  
-            while ((sCurrentLine = l_reader.readLine()) != null) {  
-                sTotalString += sCurrentLine + "\r\n";  
-       
-            }  
-            
-            return sTotalString;
 	}
 }

@@ -100,19 +100,24 @@ public class WXUtil {
 	* @throws
 	 */
 	public HttpClientResult getWxUserTag(String access_token,String tag) throws Exception {
-//		Map<String, String> paramMap = new HashMap<String, String>();
-//		JSONObject jsonObject = new JSONObject();
-//		jsonObject.put("tag", tag);
-//		paramMap.put("tag", jsonObject.toString());
-		String tags ="{ \"tag\" : { \"name\" : \"测试\"}}";
-//		paramMap.put("tag", tags);
-//		paramMap.put("name", "huhuaohohod");
+		JSONObject jsonObject = new JSONObject();
+		JSONObject nameObject = new JSONObject();
+		nameObject.put("name", tag);
+		jsonObject.put("tag", nameObject);
 		
-//		paramMap.put("access_token", access_token);
-		JSONObject jsonObj = JSONObject.parseObject(tags);
-		return HttpClientUtils.doPost(tagUrl+access_token, null , true,jsonObj);
+		return HttpClientUtils.doPost(tagUrl+access_token, null , true,jsonObject);
 	}
 	
+	/**
+	* 
+	* @Title: getWxAllTag
+	* @Description: 获取全部标签属性
+	* @param @param access_token
+	* @param @return
+	* @param @throws Exception    设定文件
+	* @return HttpClientResult    返回类型
+	* @throws
+	 */
 	public HttpClientResult getWxAllTag(String access_token) throws Exception {		
 		Map<String, String> paramMap = new HashMap<String, String>();
 		paramMap.put("access_token", access_token);
