@@ -45,8 +45,8 @@ public class HttpClientTest {
 		if (200 == httpClientResult.getStatusCode()) {
 			JSONObject jsonObject = JSONObject.parseObject((String)httpClientResult.getContent());
 			String token = jsonObject.getString("content");
-//			getAllTag(token);		
-			addTagTest(token);
+			getAllTag(token);		
+//			addTagTest(token);
 		}
 	}
 

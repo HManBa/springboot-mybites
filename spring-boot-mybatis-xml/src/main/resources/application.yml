@@ -18,7 +18,6 @@ server:
         context-path: /viagogo/mybatis/
 
 
-#log
 logging:
    level:
       org.springframework.web:  trace
