@@ -50,7 +50,7 @@ public class WxTagController {
 			HttpClientResult httpClientResult = WXUtil.getWxUserTag(access_token,tagJson);
 			
 			if (200 == httpClientResult.getStatusCode()) {
-				return ReturnDtoUtil.success(ReturnEnum.OK.getMessage());
+				return ReturnDtoUtil.success(httpClientResult.getContent());
 			}
 
 			returnDto = ReturnDtoUtil.fail(ReturnEnum.FAIL.getMessage(), null);
@@ -71,7 +71,7 @@ public class WxTagController {
 			}
 			HttpClientResult httpClientResult = WXUtil.getWxAllTag(access_token);
 			if (200 == httpClientResult.getStatusCode()) {
-				return ReturnDtoUtil.success(ReturnEnum.OK.getMessage());
+				return ReturnDtoUtil.success(httpClientResult.getContent());
 			}
 
 			returnDto = ReturnDtoUtil.fail(ReturnEnum.FAIL.getMessage(), null);

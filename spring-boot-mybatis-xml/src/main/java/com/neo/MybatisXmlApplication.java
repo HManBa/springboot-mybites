@@ -13,6 +13,5 @@ public class MybatisXmlApplication {
 		SpringApplication springApplication = new SpringApplication(MybatisXmlApplication.class);
 		springApplication.setBannerMode(Banner.Mode.CONSOLE);
 		springApplication.run(args);
-//		SpringApplication.run(MybatisXmlApplication.class, args);
 	}
 }

@@ -30,12 +30,13 @@ public class Users implements Serializable {
 		this.passWord = passWord;
 		this.userName = userName;
 		this.userSex = userSex;
+		this.id = id;
+		this.nickName = nickName;
 	}
 
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
-		return "userName " + this.userName + ", pasword " + this.passWord + "sex " + userSex.name();
+		return "userName： " + this.userName + ", pasword： " + this.passWord + "sex： " + userSex.name();
 	}
 
 }
