@@ -1,10 +1,10 @@
 Manifest-Version: 1.0
+Built-By: viagogo
+Build-Jdk: 11.0.11
 Implementation-Title: spring-boot-mybatis-xml
 Implementation-Version: 1.0.0
-Built-By: viagogo
 Implementation-Vendor-Id: com.neo
-Build-Jdk: 1.8.0_231
-Implementation-URL: https://projects.spring.io/spring-boot/#/spring-bo
- ot-starter-parent/spring-boot-mybatis-xml
+Implementation-URL: https://projects.spring.io/spring-boot/#/spring-boot
+ -starter-parent/spring-boot-mybatis-xml
 Created-By: Maven Integration for Eclipse
 
